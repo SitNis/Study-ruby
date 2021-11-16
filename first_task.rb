@@ -18,7 +18,7 @@ class Station
     @trains.delete(train)
   end
   
-  
+
 end
 
 class Route
@@ -78,21 +78,21 @@ class Train
   def get_route(route)
     @route = route
     @current_station_id = 0
-    @route.stations[0].add_train(self)
+    @route.stations[0][0].add_train(self)
   end
 
   def move_forward
     return unless next_station
-    @route.stations[@current_station_id].send_train(self)
+    @route.stations[@current_station_id][0].send_train(self)
     @current_station_id += 1
-    @route.stations[@current_station_id].add_train(self)
+    @route.stations[@current_station_id][0].add_train(self)
   end
 
   def move_back
     return unless previous_station
-    @route.stations[@current_station_id].send_train(self)
+    @route.stations[@current_station_id][0].send_train(self)
     @current_station_id -= 1
-    @route.stations[@current_station_id].add_train(self)
+    @route.stations[@current_station_id][0].add_train(self)
   end
 
   def previous_station
