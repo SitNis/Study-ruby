@@ -11,7 +11,7 @@ class Station
   end
 
   def show_trains_by(type)
-    return @trains.select { | train | train.type == type}
+    @trains.select { | train | train.type == type}
   end
 
   def send_train(train)
@@ -38,7 +38,7 @@ class Route
   end
 
   def stations
-    return [@first_station] + @intermediate_stations + [@last_station]
+    [@first_station] + @intermediate_stations + [@last_station]
   end
 
 end
@@ -74,19 +74,24 @@ class Train
     end
   end
 
-  def get_route(route_obj)
-    @route = route_obj
+  def get_route(route)
+    @route = route
     @current_station_id = 0
+    @route.stations[0].add_train(self)
   end
 
   def move_forward
     return unless next_station
+    @route.stations[@current_station_id].send_train(self)
     @current_station_id += 1
+    @route.stations[@current_station_id].add_train(self)
   end
 
   def move_back
     return unless previous_station
+    @route.stations[@current_station_id].send_train(self)
     @current_station_id -= 1
+    @route.stations[@current_station_id].add_train(self)
   end
 
   def previous_station
