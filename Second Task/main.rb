@@ -17,6 +17,25 @@ class Main
     @wagons = []
   end
 
+  def menu
+    puts "\n
+      1 - чтобы создать новый объект\n
+      2 - чтобы взаимодействовать с объектом\n
+      3 - чтобы посмотреть список объектов\n
+      0 - чтобы закончить работу\n"
+    button = gets.chomp()
+    case button
+    when "1"
+      create_menu
+    when "2"
+      actions_with_objects
+    when "3"
+      list_menu
+    end
+  end
+
+  private
+
   def new_station
     puts "Введи название станции"
     station_name = gets.chomp()
@@ -217,23 +236,6 @@ class Main
     station = self.stations.select{ |station| station.name == station_name }
     puts station[0].trains.name
     menu
-  end
-
-  def menu
-    puts "\n
-      1 - чтобы создать новый объект\n
-      2 - чтобы взаимодействовать с объектом\n
-      3 - чтобы посмотреть список объектов\n
-      0 - чтобы закончить работу\n"
-    button = gets.chomp()
-    case button
-    when "1"
-      create_menu
-    when "2"
-      actions_with_objects
-    when "3"
-      list_menu
-    end
   end
 
 end
