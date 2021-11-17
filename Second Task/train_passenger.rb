@@ -4,5 +4,4 @@ class Train_passenger < Train
     super
   end
 
-
 end

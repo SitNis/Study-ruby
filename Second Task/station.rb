@@ -14,6 +14,7 @@ class Station
     @trains.delete(train)
   end
 
+
   private
   # Пользователь не может посмотреть количество поездов определенного
   def show_trains_by(type)

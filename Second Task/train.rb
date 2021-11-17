@@ -40,6 +40,7 @@ class Train
     @route.stations[@current_station_id][0].add_train(self)
   end
 
+
   #Вынес данные методы в Protected, т.к. пользователь не может вызывать эти методы, но дочерние классы их наследуют
   protected
 

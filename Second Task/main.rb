@@ -110,7 +110,6 @@ class Main
     menu
   end
 
-
   def move_train(train_id)
     puts "Поехать вперед(1) или назад(2)?"
     move = gets.chomp()

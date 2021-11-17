@@ -18,5 +18,5 @@ class Route
   def stations
     [@first_station] + @intermediate_stations + [@last_station]
   end
-
+  
 end
