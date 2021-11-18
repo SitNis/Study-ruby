@@ -1,11 +1,23 @@
 class Train
-  attr_reader :type, :wagons
+  attr_reader :type, :wagons, :serial_number
+
+  @@all_trains = []
+
+  include InstanceCounter
+
+  def self.find(serial_number)
+    if @@all_trains.select { |train| train.serial_number == serial_number }
+    else nil
+    end
+  end
 
   def initialize(serial_number, type)
     @serial_number = serial_number
     @type = type
     @speed = 0
     @wagons = []
+    @@all_trains.push(self)
+    register_instance
   end
 
   def add_wagon(wagon)
