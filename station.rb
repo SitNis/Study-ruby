@@ -1,9 +1,19 @@
 class Station
   attr_reader :trains
-  attr_reader :name
+  attr_reader :name, :instances
+  include CompanyName
+  include InstanceCounter
+   
+
+  
+  def self.all
+    @@instances
+  end
+
   def initialize(name)
     @name = name
     @trains = []
+    register_instance
   end
 
   def add_train(train_name)
