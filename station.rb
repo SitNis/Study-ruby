@@ -1,6 +1,6 @@
 class Station
   attr_reader :trains
-  attr_reader :name, :instances
+  attr_accessor :name, :instances
   include CompanyName
   include InstanceCounter
    
@@ -14,6 +14,7 @@ class Station
     @name = name
     @trains = []
     register_instance
+    validate!
   end
 
   def add_train(train_name)
@@ -24,8 +25,19 @@ class Station
     @trains.delete(train)
   end
 
+  def valid?
+    validate!
+  rescue
+    false
+  end
 
   private
+
+  def validate!
+    raise "Station name can't be nil" if name.empty?
+    true
+  end
+
   # Пользователь не может посмотреть количество поездов определенного
   def show_trains_by(type)
     @trains.select { | train | train.type == type}

@@ -5,4 +5,8 @@ class Wagon
     @type = type
   end
   
+  protected
+  def validate!
+  	raise "Type can't be null" if type.empty?
+  end
 end
