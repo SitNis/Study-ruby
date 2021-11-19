@@ -7,6 +7,7 @@ class Route
     @last_station = last_station
     @intermediate_stations = []
     register_instance
+    validate!
   end
 
   def add_internediate_station(station_name)
@@ -20,5 +21,18 @@ class Route
   def stations
     [@first_station] + @intermediate_stations + [@last_station]
   end
+
+  def valid?
+    validate!
+  rescue
+    false
+  end
   
+  private
+
+  def validate!
+    raise "First and last station can't be non-Station class" if first_station.empty? or last_station.empty?
+    true
+  end
+
 end

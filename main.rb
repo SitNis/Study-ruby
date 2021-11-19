@@ -52,10 +52,13 @@ class Main
     train_type = gets.chomp()
     if train_type == "Cargo"
       new_train = Train_cargo.new(train_serial_number)
+      new_train.valid?
       @trains.push(new_train)
+      puts "#{new_train} создан!"
       menu
     elsif train_type == "Passenger"
       new_train = Train_passenger.new(train_serial_number)
+      new_train.valid?
       @trains.push(new_train)
       menu
     end
@@ -94,7 +97,12 @@ class Main
     when "1"
       new_station
     when "2"
-      new_train
+      begin
+        new_train
+      rescue RuntimeError => e
+        puts "#{e.inspect}"
+      retry
+      end
     when "3"
       new_route
     when "4"

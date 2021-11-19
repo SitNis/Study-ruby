@@ -1,5 +1,6 @@
 class Train
   attr_reader :type, :wagons, :serial_number
+  attr_writer :type
 
   @@all_trains = []
 
@@ -18,6 +19,7 @@ class Train
     @wagons = []
     @@all_trains.push(self)
     register_instance
+    validate!
   end
 
   def add_wagon(wagon)
@@ -52,9 +54,23 @@ class Train
     @route.stations[@current_station_id][0].add_train(self)
   end
 
+  def valid?
+    validate!
+  rescue RuntimeError => e
+    puts e.message
+  end
+
 
   #Вынес данные методы в Protected, т.к. пользователь не может вызывать эти методы, но дочерние классы их наследуют
   protected
+
+  REGEXP = /^\w{3}-?\w{2}$/
+
+  def validate!
+    raise "Type can't be nil" if type.empty?
+    raise "Incorrect serial number" if serial_number !~ REGEXP
+    true
+  end
 
   attr_accessor :speed
 
