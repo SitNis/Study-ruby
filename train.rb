@@ -60,6 +60,18 @@ class Train
     puts e.message
   end
 
+  def train_wagons
+    self.wagons.each do |wagon|
+      yield(wagon)
+    end
+  end
+
+  def current_station
+    if @route
+      @route.stations[@current_station_id]
+    end
+  end
+
 
   #Вынес данные методы в Protected, т.к. пользователь не может вызывать эти методы, но дочерние классы их наследуют
   protected
@@ -86,11 +98,6 @@ class Train
     end
   end
 
-  def current_station
-    if @route
-      @route.stations[@current_station_id]
-    end
-  end
 
   def go(speed)
     self.speed = speed
