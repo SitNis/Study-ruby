@@ -78,9 +78,13 @@ class Main
     puts "Введи тип вагона(Cargo или Passenger)"
     wagon_type = gets.chomp()
     if wagon_type == "Cargo"
-      new_wagon = Wagon_cargo.new()
+      puts "Введи максимальный объем груза"
+      volume = gets.chomp().to_i
+      new_wagon = Wagon_cargo.new(volume)
     elsif wagon_type == "Passenger"
-      new_wagon = Wagon_passenger.new()
+      puts "Введи количетсво мест"
+      places = gets.chomp().to_i
+      new_wagon = Wagon_passenger.new(places)
     end
     @wagons.push(new_wagon)
     menu       
@@ -99,7 +103,7 @@ class Main
     when "2"
       begin
         new_train
-      rescue RuntimeError => e
+      rescue Exception => e
         puts "#{e.inspect}"
       retry
       end
@@ -206,16 +210,55 @@ class Main
     end
   end
 
+  def take_place
+    puts "В каком вагоне занять место?(Порядковый номер от 1 до #{@wagons.length}\n
+    #{@wagons}"
+    wagon_id = gets.chomp().to_i
+    if @wagons[wagon_id-1].type == "Passenger"
+      @wagons[wagon_id-1].take_place
+    end
+    menu
+  end
+
+  def take_volume
+    puts "В каком вагоне занять объем?(Порядковый номер от 1 до #{@wagons.length}\n
+    #{@wagons}"
+    wagon_id = gets.chomp().to_i
+    if @wagons[wagon_id-1].type == "Cargo"
+      puts "Сколько занять?"
+      volume = gets.chomp().to_i
+      @wagons[wagon_id-1].take_volume(volume)
+    end 
+    menu
+  end
+
+  def wagon_menu
+    puts "\n
+      1 - Занять место в вагоне\n
+      2 - Заполнить объем вагона\n"
+    button = gets.chomp()
+    case  button
+    when "1"
+      take_place
+    when "2"
+      take_volume
+    end
+  end
+
+
   def actions_with_objects
     puts "\n
       1 - взаимодействовать с поездом\n
-      2 - взаимодействовать с маршрутом\n"
+      2 - взаимодействовать с маршрутом\n
+      3 - взаимодействовать с вагонами\n"
     button = gets.chomp()
     case button
     when "1"
       train_menu
     when "2"
       route_menu
+    when "3"
+      wagon_menu
     end
   end
 
@@ -227,13 +270,16 @@ class Main
   def list_menu
     puts "\n
       1 - список станций\n
-      2 - список поездов на станции\n"
+      2 - список поездов на станции\n
+      3 - список вагонов поезда\n"
     button = gets.chomp()
     case button
     when "1"
       stations_list
     when "2"
       trains_on_station_list
+    when "3"
+      train_wagons
     end
   end
 
@@ -241,8 +287,21 @@ class Main
     puts "Введи название станции \n
       #{self.stations}"
     station_name = gets.chomp()
-    station = self.stations.select{ |station| station.name == station_name }
-    puts station[0].trains.name
+    Station.all.each do |station|
+      station.trains_on_station { |train| puts train if train.current_station[0].name == station_name }
+    end
+    menu
+  end
+
+  def train_wagons
+    puts "Вагоны какого поезда вывести?(Порядковый номер до #{self.trains.length}\n
+     #{self.trains}"
+    train_id = gets.chomp().to_i
+    self.trains.each do |train|
+      if !trains[train_id-1].wagons.empty?
+        train.train_wagons { |wagon| puts wagon }
+      end
+    end
     menu
   end
 

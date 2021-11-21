@@ -1,18 +1,19 @@
 class Station
   attr_reader :trains
-  attr_accessor :name, :instances
+  attr_accessor :name, :instances, :stations
   include CompanyName
   include InstanceCounter
    
-
+  @@stations = []
   
   def self.all
-    @@instances
+    @@stations
   end
 
   def initialize(name)
     @name = name
     @trains = []
+    @@stations.push(self)
     register_instance
     validate!
   end
@@ -23,6 +24,12 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
+  end
+
+  def trains_on_station
+    self.trains.each do |train|
+      yield(train)
+    end
   end
 
   def valid?
