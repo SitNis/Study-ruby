@@ -69,7 +69,7 @@ class Main
       #{self.stations}"
     first_station_name = gets.chomp()
     last_station_name = gets.chomp()
-    route = Route.new(self.stations.select{|station| station.name == first_station_name}, self.stations.select{|station| station.name == last_station_name})
+    route = Route.new(self.stations.select{|station| station.name == first_station_name}[0], self.stations.select{|station| station.name == last_station_name}[0])
     @routes.push(route)
     menu
   end
