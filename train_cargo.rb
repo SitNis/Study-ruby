@@ -1,4 +1,4 @@
-class Train_cargo < Train
+class TrainCargo < Train
 
   def initialize(serial_number, type = "Cargo")
     super

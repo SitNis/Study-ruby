@@ -51,13 +51,13 @@ class Main
     train_serial_number = gets.chomp()
     train_type = gets.chomp()
     if train_type == "Cargo"
-      new_train = Train_cargo.new(train_serial_number)
+      new_train = TrainCargo.new(train_serial_number)
       new_train.valid?
       @trains.push(new_train)
       puts "#{new_train} создан!"
       menu
     elsif train_type == "Passenger"
-      new_train = Train_passenger.new(train_serial_number)
+      new_train = TrainPassenger.new(train_serial_number)
       new_train.valid?
       @trains.push(new_train)
       menu
@@ -80,11 +80,11 @@ class Main
     if wagon_type == "Cargo"
       puts "Введи максимальный объем груза"
       volume = gets.chomp().to_i
-      new_wagon = Wagon_cargo.new(volume)
+      new_wagon = WagonCargo.new(volume)
     elsif wagon_type == "Passenger"
       puts "Введи количетсво мест"
       places = gets.chomp().to_i
-      new_wagon = Wagon_passenger.new(places)
+      new_wagon = WagonPassenger.new(places)
     end
     @wagons.push(new_wagon)
     menu       
