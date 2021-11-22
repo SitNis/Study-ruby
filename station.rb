@@ -1,21 +1,27 @@
 class Station
   attr_reader :trains
-  attr_accessor :name, :instances, :stations
+  attr_reader :name, :instances, :stations
   include CompanyName
   include InstanceCounter
-   
+  extend Accessor
+  include Validate
+  attr_accessor_with_history :a, :b
+  strong_attr_accessor :c,String
   @@stations = []
   
   def self.all
     @@stations
   end
 
+  validate :name, :presence
+
+
   def initialize(name)
     @name = name
     @trains = []
-    @@stations.push(self)
     register_instance
     validate!
+    @@stations.push(self)
   end
 
   def add_train(train_name)
@@ -32,18 +38,18 @@ class Station
     end
   end
 
-  def valid?
-    validate!
-  rescue
-    false
-  end
+  # def valid?
+  #   validate!
+  # rescue
+  #   false
+  # end
 
   private
 
-  def validate!
-    raise "Station name can't be nil" if name.empty?
-    true
-  end
+  # def validate!
+  #   raise "Station name can't be nil" if name.empty?
+  #   true
+  # end
 
   # Пользователь не может посмотреть количество поездов определенного
   def show_trains_by(type)

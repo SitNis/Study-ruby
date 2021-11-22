@@ -5,6 +5,11 @@ class Train
   @@all_trains = []
 
   include InstanceCounter
+  include Validate
+  REGEXP = /^\w{3}-?\w{2}$/
+
+
+  validate :serial_number, :format, REGEXP
 
   def self.find(serial_number)
     if @@all_trains.select { |train| train.serial_number == serial_number }
@@ -17,9 +22,9 @@ class Train
     @type = type
     @speed = 0
     @wagons = []
-    @@all_trains.push(self)
     register_instance
     validate!
+    @@all_trains.push(self)
   end
 
   def add_wagon(wagon)
@@ -54,11 +59,11 @@ class Train
     @route.stations[@current_station_id][0].add_train(self)
   end
 
-  def valid?
-    validate!
-  rescue RuntimeError => e
-    puts e.message
-  end
+  # def valid?
+  #   validate!
+  # rescue RuntimeError => e
+  #   puts e.message
+  # end
 
   def train_wagons
     self.wagons.each do |wagon|
@@ -76,13 +81,12 @@ class Train
   #Вынес данные методы в Protected, т.к. пользователь не может вызывать эти методы, но дочерние классы их наследуют
   protected
 
-  REGEXP = /^\w{3}-?\w{2}$/
 
-  def validate!
-    raise "Type can't be nil" if type.empty?
-    raise "Incorrect serial number" if serial_number !~ REGEXP
-    true
-  end
+  # def validate!
+  #   raise "Type can't be nil" if type.empty?
+  #   raise "Incorrect serial number" if serial_number !~ REGEXP
+  #   true
+  # end
 
   attr_accessor :speed
 
