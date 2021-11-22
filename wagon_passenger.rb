@@ -1,4 +1,4 @@
-class Wagon_passenger < Wagon
+class WagonPassenger < Wagon
   attr_reader :places, :taken_places
 
   def initialize(places)

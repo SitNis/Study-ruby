@@ -1,6 +1,10 @@
 class Route
   attr_reader :first_station, :last_station
   include InstanceCounter
+  include Validate
+
+  validate :first_station, :type, Station
+  validate :last_station, :type, Station
   
   def initialize(first_station, last_station)
     @first_station = first_station
@@ -22,17 +26,17 @@ class Route
     [@first_station] + @intermediate_stations + [@last_station]
   end
 
-  def valid?
-    validate!
-  rescue
-    false
-  end
+  # def valid?
+  #   validate!
+  # rescue
+  #   false
+  # end
   
-  private
+  # private
 
-  def validate!
-    raise "First and last station can't be non-Station class" if first_station.empty? or last_station.empty?
-    true
-  end
+  # def validate!
+  #   raise "First and last station can't be non-Station class" if first_station.empty? or last_station.empty?
+  #   true
+  # end
 
 end

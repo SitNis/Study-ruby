@@ -1,4 +1,4 @@
-class Wagon_cargo < Wagon
+class WagonCargo < Wagon
   attr_reader :volume, :taken_volume
 
   def initialize(volume)
